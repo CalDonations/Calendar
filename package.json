@@ -7,7 +7,10 @@
     "postinstall": "npm run install-dependencies",
     "install-dependencies": "cd backend && npm install && cd ../frontend && npm install",
     "start": "concurrently \"npm run backend\" \"npm run frontend\"",
-    "frontend": "cd frontend && npm run dev",
+    "frontend": "cd frontend && npm run dev ",
     "backend": "cd backend && node ./server.cjs"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.1.1"
   }
 }
