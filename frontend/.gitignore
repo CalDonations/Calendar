@@ -28,3 +28,10 @@ qodana.yaml
 
 eslint.config.js
 .idea
+
+#construct
+tsconfig.app.tsbuildinfo
+tsconfig.node.tsbuildinfo
+postcss.config.js
+.env
+tailwind.config.js
