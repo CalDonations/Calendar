@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    base: "/CalDonations/Calendar/",
+    base: "/Deploying-vite/",
     plugins: [react()],
     resolve: {
         alias: {

@@ -22,16 +22,14 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.env
 
 #Test and debug tools
 qodana.yaml
 
 eslint.config.js
 .idea
-
-#construct
+postcss.config.js
 tsconfig.app.tsbuildinfo
 tsconfig.node.tsbuildinfo
-postcss.config.js
-.env
-tailwind.config.js
+

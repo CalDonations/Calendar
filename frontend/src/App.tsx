@@ -233,7 +233,7 @@ function App() {
     };
 
     const handleCreateDonation = () => {
-        if (!checkInputFilled()) return;
+        if (!checkInputFilled() || !api) return;
 
         fetch(api, {
             method: "POST",
