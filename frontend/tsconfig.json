@@ -11,6 +11,7 @@
   "compilerOptions": {
     "sourceMap": true,
     "inlineSources": true,
+    "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
       "@/*": [
