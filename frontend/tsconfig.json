@@ -9,6 +9,8 @@
     }
   ],
   "compilerOptions": {
+    "sourceMap": true,
+    "inlineSources": true,
     "baseUrl": ".",
     "paths": {
       "@/*": [
