@@ -33,3 +33,4 @@ postcss.config.js
 tsconfig.app.tsbuildinfo
 tsconfig.node.tsbuildinfo
 
+.vercel
