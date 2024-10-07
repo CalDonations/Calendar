@@ -19,6 +19,7 @@ import React, { useEffect, useState } from "react";
 import EventSideNav from "@/layout/EventSideNav";
 
 const api = import.meta.env.VITE_API_URL;
+console.log(api);
 
 const donationTypes = [
     {
