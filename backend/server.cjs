@@ -8,7 +8,7 @@ const bodyParser = require("body-parser");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const mongoURI = "mongodb+srv://streetpioneertw:km7ztSbF5zc8SvVg@calendar.egc8i.mongodb.net/?retryWrites=true&w=majority&appName=Calendar";
+const mongoURI = process.env.MONGODB_URI;
 
 // Middleware
 app.use(cors());
