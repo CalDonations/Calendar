@@ -19,7 +19,6 @@ import React, { useEffect, useState } from "react";
 import EventSideNav from "@/layout/EventSideNav";
 
 const api = import.meta.env.VITE_API_URL;
-console.log(api);
 
 const donationTypes = [
     {
@@ -275,6 +274,25 @@ function App() {
                 console.error("Error updating donation:", error);
             });
     };
+
+    /*const handleDeleteDonation = () => {
+        if (!selectedDonation) return; // 確保 selectedDonation 不為 null
+        const updatedDonations = donations.filter(
+            (donation) => donation !== selectedDonation,
+        );
+
+        fetch(`${api}/${selectedDonation._id}`, {
+            // 確保 selectedDonation 不為 null
+            method: "DELETE",
+        })
+            .then(() => {
+                setDonations(updatedDonations);
+                setShowDonationModal(false);
+            })
+            .catch((error) => {
+                console.error("Error deleting donation:", error);
+            });
+    };*/
 
     const handleDeleteDonation = () => {
         if (!selectedDonation) return; // 確保 selectedDonation 不為 null
