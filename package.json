@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@radix-ui/react-alert-dialog": "^1.1.2",
     "concurrently": "^9.0.1",
     "mongoose": "^8.5.2"
   },

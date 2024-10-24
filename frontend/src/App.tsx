@@ -17,6 +17,14 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import React, { useEffect, useState } from "react";
 import EventSideNav from "@/layout/EventSideNav";
+import {
+    AlertDialog,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+} from "@/components/ui/alert-dialog"
 
 const api = import.meta.env.VITE_API_URL;
 
@@ -332,6 +340,30 @@ function App() {
         setShowDateModal(false);
     };
 
+    const handleAlertDialog = () => {
+        const [open, setOpen] = useState(false);
+
+        useEffect(() => {
+            setOpen(true);
+        }, []);
+
+        return (
+            <AlertDialog open={open} onOpenChange={setOpen}>
+                <AlertDialogContent>
+                    <AlertDialogHeader className="flex items-center justify-between">
+                        <AlertDialogDescription  className="text-xl font-bold text-muted-foreground">
+                            平日物資量較大，建議到龍山寺發放
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel onClick={() => setOpen(false)}>關閉</AlertDialogCancel>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+        );
+
+    };
+
     const events = donations.map((donation) => ({
         id: donation._id || "", // 确保 id 不为 undefined
         title: donation.title,
@@ -344,6 +376,9 @@ function App() {
             className="container rounded-lg  overflow-hidden h-screen"
             style={{ paddingRight: "3rem" }}
         >
+            {/* AlertDialog */}
+            {handleAlertDialog()} 
+
             <div className="flex shrink-0 flex-row justify-end rounded-l-2xl mx-0 my-2 overflow-hidden right-0 bottom-0 relative justify-self-end pl-4">
                 <EventSideNav events={events} />
             </div>
