@@ -5,8 +5,8 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import {Input} from "@/components/ui/input";
+import {Button} from "@/components/ui/button";
 import {
     Select,
     SelectContent,
@@ -14,9 +14,10 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { Card, CardContent } from "@/components/ui/card";
-import React, { useEffect, useState } from "react";
+import {Card, CardContent} from "@/components/ui/card";
+import React, {useEffect, useState} from "react";
 import EventSideNav from "@/layout/EventSideNav";
+import Navbar from '@/layout/Navbar.tsx';
 import {
     AlertDialog,
     AlertDialogCancel,
@@ -24,9 +25,10 @@ import {
     AlertDialogDescription,
     AlertDialogFooter,
     AlertDialogHeader,
-} from "@/components/ui/alert-dialog"
+} from "@/components/ui/alert-dialog";
+import {CollapseProvider} from "@/components/collapse-provider.tsx";
 
-const api = import.meta.env.VITE_API_URL;
+const api = 'https://calendar-egyg.onrender.com/api/donations';
 
 const donationTypes = [
     {
@@ -113,7 +115,7 @@ const TimeDropdown = ({
 }) => (
     <Select value={selectedTime} onValueChange={setSelectedTime}>
         <SelectTrigger>
-            <SelectValue placeholder="選擇時間" />
+            <SelectValue placeholder="選擇時間"/>
         </SelectTrigger>
         <SelectContent>
             {times.map((time) => (
@@ -151,7 +153,7 @@ function App() {
     const [selectedMonth, setSelectedMonth] = useState(currentDate.getMonth());
 
     useEffect(() => {
-        if(!api) return;
+        if (!api) return;
         fetch(api)
             .then((response) => response.json())
             .then((data) => setDonations(data))
@@ -302,25 +304,6 @@ function App() {
             });
     };*/
 
-    const handleDeleteDonation = () => {
-        if (!selectedDonation) return; // 確保 selectedDonation 不為 null
-        const updatedDonations = donations.filter(
-            (donation) => donation !== selectedDonation,
-        );
-
-        fetch(`${api}/${selectedDonation._id}`, {
-            // 確保 selectedDonation 不為 null
-            method: "DELETE",
-        })
-            .then(() => {
-                setDonations(updatedDonations);
-                setShowDonationModal(false);
-            })
-            .catch((error) => {
-                console.error("Error deleting donation:", error);
-            });
-    };
-
     const handleDateClick = () => {
         setSelectedYear(currentDate.getFullYear());
         setSelectedMonth(currentDate.getMonth());
@@ -339,7 +322,6 @@ function App() {
         setCurrentDate(new Date(selectedYear, selectedMonth, 1));
         setShowDateModal(false);
     };
-
     const handleAlertDialog = () => {
         const [open, setOpen] = useState(false);
 
@@ -351,8 +333,8 @@ function App() {
             <AlertDialog open={open} onOpenChange={setOpen}>
                 <AlertDialogContent>
                     <AlertDialogHeader className="flex items-center justify-between">
-                        <AlertDialogDescription  className="text-xl font-bold text-muted-foreground">
-                            平日物資量較大，建議到龍山寺發放
+                        <AlertDialogDescription className="text-xl font-bold text-muted-foreground">
+                            平日物資量較大，建議到艋舺公園發放
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
@@ -365,231 +347,204 @@ function App() {
     };
 
     const events = donations.map((donation) => ({
-        id: donation._id || "", // 确保 id 不为 undefined
+        id: donation._id || "",
         title: donation.title,
         date: donation.date,
         type: donation.type,
     }));
 
     return (
-        <div
-            className="container rounded-lg  overflow-hidden h-screen"
-            style={{ paddingRight: "3rem" }}
-        >
-            {/* AlertDialog */}
-            {handleAlertDialog()} 
-
-            <div className="flex shrink-0 flex-row justify-end rounded-l-2xl mx-0 my-2 overflow-hidden right-0 bottom-0 relative justify-self-end pl-4">
-                <EventSideNav events={events} />
-            </div>
-            <div className="relative flex grow flex-col py-0 mx-6 my-2 rounded-2xl p-4 ">
-                <Card className="mb-6 shadow-sm">
-                    <CardContent className="flex justify-between items-center p-4 text-muted-foreground">
-                        <Button
-                            variant="outline"
-                            onClick={() =>
-                                setCurrentDate(
-                                    new Date(
-                                        currentDate.getFullYear(),
-                                        currentDate.getMonth() - 1,
-                                        1,
-                                    ),
-                                )
-                            }
-                        >
-                            前一個月
-                        </Button>
-                        <h2
-                            className="text-2xl font-bold cursor-pointer hover:underline text-muted-foreground"
-                            onClick={handleDateClick}
-                        >
-                            {currentDate.toLocaleString("zh-TW", {
-                                month: "long",
-                                year: "numeric",
-                            })}
-                        </h2>
-                        <Button
-                            variant="outline"
-                            onClick={() =>
-                                setCurrentDate(
-                                    new Date(
-                                        currentDate.getFullYear(),
-                                        currentDate.getMonth() + 1,
-                                        1,
-                                    ),
-                                )
-                            }
-                        >
-                            下一個月
-                        </Button>
-                    </CardContent>
-                </Card>
-                <div className="grid grid-cols-7 gap-1 mb-2">
-                    {[
-                        "星期日",
-                        "星期一",
-                        "星期二",
-                        "星期三",
-                        "星期四",
-                        "星期五",
-                        "星期六",
-                    ].map((day) => (
-                        <div
-                            key={day}
-                            className="font-bold text-center text-muted-foreground"
-                        >
-                            {day}
-                        </div>
-                    ))}
+        <CollapseProvider>
+            <div className="container mx-auto px-4 py-6 sm:px-6 lg:px-8" style={{paddingRight: "3rem"}}>
+                {/* Navbar at the top */}
+                <div className="fixed top-0 left-0 right-0 z-10">
+                    <Navbar/>
                 </div>
-                <div className="grid grid-cols-7 gap-4">{renderCalendar()}</div>
-            </div>
-            <Dialog open={showDonationModal} onOpenChange={setShowDonationModal}>
-                <DialogContent className="sm:max-w-[425px]">
-                    <DialogHeader>
-                        <DialogTitle>
-                            {selectedDonation ? "Edit Donation" : "填入基本訊息吧"}
-                        </DialogTitle>
-                    </DialogHeader>
-                    <div className="grid gap-4 py-4">
-                        <Input
-                            placeholder="你的稱呼"
-                            value={newDonation.name}
-                            onChange={(e) =>
-                                setNewDonation({ ...newDonation, name: e.target.value })
-                            }
-                            className="col-span-3"
-                            required
-                        />
-                        <Input
-                            placeholder="你的電話（我們會對訊息保密）"
-                            value={newDonation.phone}
-                            onChange={(e) =>
-                                setNewDonation({ ...newDonation, phone: e.target.value })
-                            }
-                            className="col-span-3"
-                            required
-                        />
-                        <Input
-                            placeholder="你想捐什麽🤔"
-                            value={newDonation.title}
-                            onChange={(e) =>
-                                setNewDonation({ ...newDonation, title: e.target.value })
-                            }
-                            className="col-span-3"
-                            required
-                        />
-                        <div>
+
+                {/* Container with padding to place EventSideNav below Navbar */}
+                {handleAlertDialog()}
+
+                {/* EventSideNav positioned directly below the Navbar */}
+                <div className="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
+                    <EventSideNav events={events}/>
+                </div>
+                <div className="w-full md:pr-64">
+                    <Card className="mb-6 shadow-sm">
+                        <CardContent className="flex justify-between items-center p-4 text-muted-foreground">
+                            <Button
+                                variant="outline"
+                                onClick={() =>
+                                    setCurrentDate(
+                                        new Date(
+                                            currentDate.getFullYear(),
+                                            currentDate.getMonth() - 1,
+                                            1,
+                                        ),
+                                    )
+                                }
+                            >
+                                前一個月
+                            </Button>
+                            <h2
+                                className="text-2xl font-bold cursor-pointer hover:underline text-muted-foreground"
+                                onClick={handleDateClick}
+                            >
+                                {currentDate.toLocaleString("zh-TW", {
+                                    month: "long",
+                                    year: "numeric",
+                                })}
+                            </h2>
+                            <Button
+                                variant="outline"
+                                onClick={() =>
+                                    setCurrentDate(
+                                        new Date(
+                                            currentDate.getFullYear(),
+                                            currentDate.getMonth() + 1,
+                                            1,
+                                        ),
+                                    )
+                                }
+                            >
+                                下一個月
+                            </Button>
+                        </CardContent>
+                    </Card>
+
+                    <div className="grid grid-cols-7 gap-1 mb-2 text-sm sm:text-base">
+                        {["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"].map((day) => (
+                            <div key={day} className="font-bold text-center text-muted-foreground">
+                                {day}
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="grid grid-cols-7 gap-2 sm:gap-4">{renderCalendar()}</div>
+                </div>
+
+                {/* Donation Modal */}
+                <Dialog open={showDonationModal} onOpenChange={setShowDonationModal}>
+                    <DialogContent className="sm:max-w-[425px]">
+                        <DialogHeader>
+                            <DialogTitle>{selectedDonation ? "Edit Donation" : "填入基本訊息吧"}</DialogTitle>
+                        </DialogHeader>
+                        <div className="grid gap-4 py-4">
+                            <Input
+                                placeholder="你的稱呼"
+                                value={newDonation.name}
+                                onChange={(e) => setNewDonation({...newDonation, name: e.target.value})}
+                                className="col-span-3"
+                                required
+                            />
+                            <Input
+                                placeholder="你的電話（我們會對訊息保密）"
+                                value={newDonation.phone}
+                                onChange={(e) => setNewDonation({...newDonation, phone: e.target.value})}
+                                className="col-span-3"
+                                required
+                            />
+                            <Input
+                                placeholder="你想捐什麽🤔"
+                                value={newDonation.title}
+                                onChange={(e) => setNewDonation({...newDonation, title: e.target.value})}
+                                className="col-span-3"
+                                required
+                            />
                             <div className="flex space-x-4 col-span-3">
                                 <Input
                                     type="date"
                                     value={newDonation.date}
-                                    onChange={(e) =>
-                                        setNewDonation({ ...newDonation, date: e.target.value })
-                                    }
+                                    onChange={(e) => setNewDonation({...newDonation, date: e.target.value})}
                                     required
                                 />
                                 <TimeDropdown
-                                    selectedTime={newDonation.time || ""} // 確保 selectedTime 不為 undefined
-                                    setSelectedTime={(time) => {
-                                        const updatedDonation = { ...newDonation, time };
-                                        setNewDonation(updatedDonation);
-                                    }}
+                                    selectedTime={newDonation.time || ""}
+                                    setSelectedTime={(time) => setNewDonation({...newDonation, time})}
                                 />
                             </div>
+                            <Select
+                                value={newDonation.type}
+                                onValueChange={(value) => setNewDonation({...newDonation, type: value})}
+                            >
+                                <SelectTrigger className="col-span-3">
+                                    <SelectValue placeholder="選擇種類"/>
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {donationTypes.map((type) => (
+                                        <SelectItem key={type.value} value={type.value}>
+                                            {type.label}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                            <Input
+                                placeholder="數量"
+                                type="number"
+                                value={newDonation.amount}
+                                onChange={(e) => setNewDonation({...newDonation, amount: e.target.value})}
+                                className="col-span-3"
+                            />
+                            <Input
+                                placeholder="備註"
+                                value={newDonation.note}
+                                onChange={(e) => setNewDonation({...newDonation, note: e.target.value})}
+                                className="col-span-3"
+                            />
                         </div>
-                        <Select
-                            value={newDonation.type}
-                            onValueChange={(value) =>
-                                setNewDonation({ ...newDonation, type: value })
-                            }
-                        >
-                            <SelectTrigger className="col-span-3">
-                                <SelectValue placeholder="選擇種類" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {donationTypes.map((type) => (
-                                    <SelectItem key={type.value} value={type.value}>
-                                        {type.label}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                        <Input
-                            placeholder="數量"
-                            type="number"
-                            value={newDonation.amount}
-                            onChange={(e) =>
-                                setNewDonation({ ...newDonation, amount: e.target.value })
-                            }
-                            className="col-span-3"
-                        />
-                        <Input
-                            placeholder="備註"
-                            value={newDonation.note}
-                            onChange={(e) =>
-                                setNewDonation({ ...newDonation, note: e.target.value })
-                            }
-                            className="col-span-3"
-                        />
-                    </div>
-                    <DialogFooter>
-                        {selectedDonation ? (
-                            <>
+                        <DialogFooter>
+                            {selectedDonation ? (
                                 <Button variant="outline" onClick={handleUpdateDonation}>
                                     更新
                                 </Button>
-                                <Button variant="destructive" onClick={handleDeleteDonation}>
-                                    刪除
+                            ) : (
+                                <Button variant="destructive" onClick={handleCreateDonation}>
+                                    新增
                                 </Button>
-                            </>
-                        ) : (
-                            <Button variant="destructive" onClick={handleCreateDonation}>
-                                新增
-                            </Button>
-                        )}
-                    </DialogFooter>
-                </DialogContent>
-            </Dialog>
+                            )}
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
 
-            <Dialog open={showDateModal} onOpenChange={setShowDateModal}>
-                <DialogContent className="sm:max-w-[425px]">
-                    <DialogHeader>
-                        <DialogTitle>選擇年份和月份</DialogTitle>
-                    </DialogHeader>
-                    <div className="grid gap-4 py-4">
-                        <Select
-                            value={months[selectedMonth]}
-                            onValueChange={handleMonthChange}
-                        >
-                            <SelectContent>
-                                {months.map((month) => (
-                                    <SelectItem key={month} value={month}>
-                                        {month}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                            <SelectTrigger className="col-span-3">
-                                <SelectValue placeholder="Select Month" />
-                            </SelectTrigger>
-                        </Select>
-                        <Input
-                            type="number"
-                            value={selectedYear.toString()}
-                            onChange={(e) => handleYearChange(e)}
-                            min={1900}
-                            max={2100}
-                            className="col-span-3"
-                        />
-                    </div>
-                    <DialogFooter>
-                        <Button variant="destructive" onClick={handleDateSubmit}>
-                            確定
-                        </Button>
-                    </DialogFooter>
-                </DialogContent>
-            </Dialog>
-        </div>
+                {/* Date Selection Modal */}
+                <Dialog open={showDateModal} onOpenChange={setShowDateModal}>
+                    <DialogContent className="sm:max-w-[425px]">
+                        <DialogHeader>
+                            <DialogTitle>選擇年份和月份</DialogTitle>
+                        </DialogHeader>
+                        <div className="grid gap-4 py-4">
+                            <Select
+                                value={months[selectedMonth]}
+                                onValueChange={handleMonthChange}
+                            >
+                                <SelectTrigger className="col-span-3">
+                                    <SelectValue placeholder="Select Month"/>
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {months.map((month) => (
+                                        <SelectItem key={month} value={month}>
+                                            {month}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                            <Input
+                                type="number"
+                                value={selectedYear.toString()}
+                                onChange={handleYearChange}
+                                min={1900}
+                                max={2100}
+                                className="col-span-3"
+                            />
+                        </div>
+                        <DialogFooter>
+                            <Button variant="destructive" onClick={handleDateSubmit}>
+                                確定
+                            </Button>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
+            </div>
+        </CollapseProvider>
     );
 }
 
