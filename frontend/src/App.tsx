@@ -52,6 +52,7 @@ const donationTypes = [
         color: "bg-purple-100 hover:bg-purple-200 text-purple-800",
     },
 ];
+
 type Donation = {
     _id?: string; // Assuming _id is optional for new donations
     name?: string;
@@ -160,6 +161,8 @@ function App() {
             .catch((error) => console.error("Error fetching donations:", error));
     }, []);
 
+
+
     const renderCalendar = () => {
         const year = currentDate.getFullYear();
         const month = currentDate.getMonth();
@@ -203,6 +206,7 @@ function App() {
                                 >
                                     {donation.title}
                                 </div>
+
                             );
                         })}
                     </CardContent>
