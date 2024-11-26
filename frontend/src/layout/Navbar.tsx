@@ -1,7 +1,7 @@
 'use client'
 
 import {Button} from "@/components/ui/button.tsx"
-import {Calendar, ChevronLeftIcon, ChevronRightIcon, MessageSquareWarning} from 'lucide-react'
+import {ChevronLeftIcon, ChevronRightIcon, MessageSquareWarning} from 'lucide-react'
 import {useCollapse} from '@/components/collapse-provider.tsx';
 import {ThemeProvider} from "@/components/theme-provider.tsx";
 import {ModeToggle} from "@/components/mode-toggle.tsx";
@@ -22,9 +22,6 @@ export default function Navbar() {
                         <span className="font-bold text-xl">物資日曆</span>
                     </div>
                     <div className="flex items-center">
-                        <Button variant="ghost" size="icon" className="ml-4">
-                            <Calendar className="h-5 w-5"/>
-                        </Button>
                         <Button variant="ghost" size="icon" className="ml-4" onClick={handleNavigate}>
                             <MessageSquareWarning className="h-5 w-5"/>
                         </Button>

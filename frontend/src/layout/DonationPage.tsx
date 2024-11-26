@@ -1,9 +1,18 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { useNavigate } from 'react-router-dom';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 export default function MaterialListPage() {
+    const navigate = useNavigate(); // 使用 useNavigate 鉤子
+
     return (
         <div className="container mx-auto py-10">
+            <button
+                className="mb-4 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded"
+                onClick={() => navigate(-1)} // 返回上一頁
+            >
+                返回
+            </button>
             <h1 className="text-3xl font-bold mb-6">物資清單</h1>
 
             <Card className="mb-6">
