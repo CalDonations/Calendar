@@ -2,7 +2,9 @@
   "dependencies": {
     "@radix-ui/react-alert-dialog": "^1.1.2",
     "concurrently": "^9.0.1",
-    "mongoose": "^8.5.2"
+    "mongoose": "^8.5.2",
+    "next": "^15.0.3",
+    "react-router-dom": "^7.0.1"
   },
   "scripts": {
     "postinstall": "npm run install-dependencies",

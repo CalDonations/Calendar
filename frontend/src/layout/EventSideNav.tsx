@@ -1,12 +1,12 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { CalendarIcon, FilterIcon } from 'lucide-react'
-import { useCollapse } from '@/components/collapse-provider' // Adjust the import path as necessary
+import {useEffect, useState} from 'react'
+import {Button} from "@/components/ui/button"
+import {Input} from "@/components/ui/input"
+import {ScrollArea} from "@/components/ui/scroll-area"
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select"
+import {CalendarIcon, FilterIcon} from 'lucide-react'
+import {useCollapse} from '@/components/collapse-provider'
 
 type Event = {
     id: string
@@ -16,18 +16,18 @@ type Event = {
 }
 
 const eventTypes = [
-    { value: "all", label: "所有分類" },
-    { value: "hygiene", label: "衛生用品" },
-    { value: "food", label: "食物" },
-    { value: "clothing", label: "衣服" },
-    { value: "other", label: "其他" },
+    {value: "all", label: "所有分類"},
+    {value: "hygiene", label: "衛生用品"},
+    {value: "food", label: "食物"},
+    {value: "clothing", label: "衣服"},
+    {value: "other", label: "其他"},
 ]
 
-export default function EventSidenav({ events }: { events: Event[] }) {
+export default function EventSidenav({events}: { events: Event[] }) {
     const [filteredEvents, setFilteredEvents] = useState<Event[]>(events)
     const [searchTerm, setSearchTerm] = useState('')
     const [selectedType, setSelectedType] = useState('all')
-    const { collapsed} = useCollapse();
+    const {collapsed} = useCollapse();
 
     useEffect(() => {
         const filtered = events.filter(event =>
@@ -53,7 +53,7 @@ export default function EventSidenav({ events }: { events: Event[] }) {
                     />
                     <Select value={selectedType} onValueChange={setSelectedType}>
                         <SelectTrigger>
-                            <SelectValue placeholder="Filter by type" />
+                            <SelectValue placeholder="Filter by type"/>
                         </SelectTrigger>
                         <SelectContent>
                             {eventTypes.map((type) => (
@@ -71,11 +71,11 @@ export default function EventSidenav({ events }: { events: Event[] }) {
                         <div key={event.id} className="p-4 border-b border-border">
                             <h3 className="font-medium">{event.title}</h3>
                             <p className="text-sm text-muted-foreground flex items-center mt-1">
-                                <CalendarIcon className="w-4 h-4 mr-1" />
+                                <CalendarIcon className="w-4 h-4 mr-1"/>
                                 {event.date}
                             </p>
                             <p className="text-sm flex items-center mt-1">
-                                <FilterIcon className="w-4 h-4 mr-1" />
+                                <FilterIcon className="w-4 h-4 mr-1"/>
                                 {eventTypes.find(type => type.value === event.type)?.label || event.type}
                             </p>
                         </div>

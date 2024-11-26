@@ -1,14 +1,18 @@
 'use client'
 
 import {Button} from "@/components/ui/button.tsx"
-import {Calendar, ChevronLeftIcon, ChevronRightIcon, MapPin, MessageSquareWarning, ScrollText} from 'lucide-react'
-import { useCollapse } from '@/components/collapse-provider.tsx';
+import {Calendar, ChevronLeftIcon, ChevronRightIcon, MessageSquareWarning} from 'lucide-react'
+import {useCollapse} from '@/components/collapse-provider.tsx';
 import {ThemeProvider} from "@/components/theme-provider.tsx";
 import {ModeToggle} from "@/components/mode-toggle.tsx";
-
+import {useNavigate} from 'react-router-dom';
 
 export default function Navbar() {
-    const { collapsed, toggleCollapsed } = useCollapse();
+    const {collapsed, toggleCollapsed} = useCollapse();
+    const navigate = useNavigate();
+    const handleNavigate = () => {
+        navigate('/donation');
+    };
 
     return (
         <nav className="bg-background border-b">
@@ -21,14 +25,8 @@ export default function Navbar() {
                         <Button variant="ghost" size="icon" className="ml-4">
                             <Calendar className="h-5 w-5"/>
                         </Button>
-                        <Button variant="ghost" size="icon" className="ml-4">
-                            <ScrollText className="h-5 w-5"/>
-                        </Button>
-                        <Button variant="ghost" size="icon" className="ml-4">
+                        <Button variant="ghost" size="icon" className="ml-4" onClick={handleNavigate}>
                             <MessageSquareWarning className="h-5 w-5"/>
-                        </Button>
-                        <Button variant="ghost" size="icon" className="ml-4">
-                            <MapPin className="h-5 w-5"/>
                         </Button>
                         <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
                             <ModeToggle/>
