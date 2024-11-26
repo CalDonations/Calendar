@@ -13,5 +13,6 @@ export default defineConfig({
     },
     build: {
         sourcemap: false,
-    }
+        outDir: 'dist', // Ensure this is set
+    },
 });
