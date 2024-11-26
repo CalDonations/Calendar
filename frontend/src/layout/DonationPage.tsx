@@ -140,6 +140,35 @@ export default function MaterialListPage() {
                     </ol>
                 </CardContent>
             </Card>
+            {/* 服務團體資訊 */}
+            <Card className="mb-6">
+                <CardHeader>
+                    <CardTitle>無家者服務團體 / 其他地點</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <ul className="list-disc pl-5">
+                        <li>
+                            <li>臺北市政府社會局</li>
+                            <ul className="pl-5">
+                                <li>中正社福中心｜02-2396-2340｜臺北市中正區延平南路207號6樓</li>
+                                <li>萬華社福中心｜02-2336-5700｜臺北市萬華區萬大路22號4樓</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="https://www.homelesstaiwan.org/">芒草心｜02-2331-5992｜臺北市萬華區雅江街50號</a>
+                        </li>
+                        <li>
+                            <a href="https://www.homelesstaiwan.org/post/20230508donation">別讓物資變誤資｜香香澡堂捐物懶人包</a>
+                        </li>
+                        <li>
+                            <a href="https://doyouaflavor.tw/">人生百味｜02-2371-2771｜臺北市萬華區貴陽街二段202號2樓</a>
+                        </li>
+                        <li>
+                            <a href="https://www.poverty.org.tw/links/all/1">思安｜02-2312-0225｜臺北市中正區中山北路一段26巷7號1樓</a>
+                        </li>
+                    </ul>
+                </CardContent>
+            </Card>
         </div>
     )
 }
